@@ -80,5 +80,21 @@ def search(search_term):
     else:
         click.echo(f"No books found related to '{search_query}'")
 
+@cli.command()
+@click.argument("rating", type=int)
+def get_by_rating(rating):
+    """
+    Get books by rating.
+    """
+    books = session.query(Book).filter_by(rating=rating).all()
+
+    if books:
+        click.echo(f"Books with rating {rating}:")
+        for book in books:
+            click.echo(f"- {book.title} by {book.author.name}")
+    else:
+        click.echo(f"No books found with rating {rating}")
+
+
 if __name__ == "__main__":
     cli()
